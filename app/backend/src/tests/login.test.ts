@@ -108,12 +108,32 @@ describe('Teste', () => {
         expect(chaiHttpResponse.body).to.haveOwnProperty('message');
         expect(chaiHttpResponse.body.message).to.be.eq('Incorrect email or password');
     });
+
+    it('testa se ao tentar enviar um token válido, o endpoint retornará um objeto com o tipo de usuário', async () => {
+        const validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc";
+        
+        sinon
+        .stub(User, "findByPk")
+        .resolves({ role: 'admin'} as User);
+        
+        chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('authorization', validToken)
+        
+        expect(chaiHttpResponse).to.have.status(200);
+        expect(chaiHttpResponse.body).to.haveOwnProperty('role');
+        expect(chaiHttpResponse.body.role).to.be.eq('admin');
+        (User.findByPk as sinon.SinonStub).restore();
+    });
+
+    it('testa se o token foi fornecido e retorna um erro caso não', async () => {
+        chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+
+        expect(chaiHttpResponse).to.have.status(401);
+        expect(chaiHttpResponse.body).to.haveOwnProperty('message');
+        expect(chaiHttpResponse.body.message).to.be.eq('blank token');
+    });
 });
-function before(arg0: () => Promise<void>) {
-    throw new Error('Function not implemented.');
-}
-
-function after(arg0: () => void) {
-    throw new Error('Function not implemented.');
-}
-

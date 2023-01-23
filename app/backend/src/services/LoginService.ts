@@ -14,6 +14,11 @@ class LoginService {
     return token;
   }
 
+  private static decodeToken(token: string) {
+    const decoded = jwt.decode(token);
+    return decoded as jwt.JwtPayload;
+  }
+
   static async login(email: string, password: string): Promise<IResponse> {
     if (!email || !password) {
       return { type: ErrorMap.BAD_REQUEST, message: 'All fields must be filled' };
@@ -29,6 +34,12 @@ class LoginService {
     }
     const token = LoginService.createToken(user.id);
     return { type: null, message: token };
+  }
+
+  static async returnRole(token: string): Promise<string | undefined> {
+    const decoded = LoginService.decodeToken(token);
+    const user = await User.findByPk(decoded.data.id, { attributes: ['role'] });
+    return user?.role;
   }
 }
 

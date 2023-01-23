@@ -11,6 +11,17 @@ class LoginController {
     }
     return res.status(200).json({ token: message });
   }
+
+  static async returnRole(req: Request, res: Response) {
+    const token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(401).json({ message: 'blank token' });
+    }
+
+    const returnRole = await LoginService.returnRole(token);
+    return res.status(200).json({ role: returnRole });
+  }
 }
 
 export default LoginController;
