@@ -14,11 +14,11 @@ class LoginService {
     return token;
   }
 
-  static async login(username: string, password: string): Promise<IResponse> {
-    if (!username || !password) {
+  static async login(email: string, password: string): Promise<IResponse> {
+    if (!email || !password) {
       return { type: ErrorMap.BAD_REQUEST, message: 'All fields must be filled' };
     }
-    const user = await User.findOne({ where: { username } });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return { type: ErrorMap.UNAUTHORIZED, message: 'Incorrect email or password' };
     }
