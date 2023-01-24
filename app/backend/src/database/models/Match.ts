@@ -6,9 +6,9 @@ import Team from './Team';
 
 class Match extends Model<InferAttributes<Match>, InferCreationAttributes<Match>> {
   declare id: CreationOptional<number>;
-  declare homeTeam: number;
+  declare homeTeamId: number;
   declare homeTeamGoals: number;
-  declare awayTeam: number;
+  declare awayTeamId: number;
   declare awayTeamGoals: number;
   declare inProgress: boolean;
 }
@@ -19,7 +19,7 @@ Match.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  homeTeam: {
+  homeTeamId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -31,7 +31,7 @@ Match.init({
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  awayTeam: {
+  awayTeamId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -59,7 +59,7 @@ Team.hasMany(Match, { foreignKey: 'homeTeamId' });
 
 Team.hasMany(Match, { foreignKey: 'awayTeamId' });
 
-Match.belongsTo(Team, { foreignKey: 'homeTeamId', as: 'teamHome' });
-Match.belongsTo(Team, { foreignKey: 'awayTeamId', as: 'teamAway' });
+Match.belongsTo(Team, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+Match.belongsTo(Team, { foreignKey: 'awayTeamId', as: 'awayTeam' });
 
 export default Match;
