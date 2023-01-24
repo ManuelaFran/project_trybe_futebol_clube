@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 const { app } = new App();
 const { expect } = chai;
 
-describe('Teste', () => {
+describe('Testes da rota login', () => {
     let chaiHttpResponse: Response;
 
     before(async () => {
@@ -124,7 +124,7 @@ describe('Teste', () => {
         expect(chaiHttpResponse).to.have.status(200);
         expect(chaiHttpResponse.body).to.haveOwnProperty('role');
         expect(chaiHttpResponse.body.role).to.be.eq('admin');
-        (User.findByPk as sinon.SinonStub).restore();
+        (User.findByPk as sinon.SinonStub).restore();    
     });
 
     it('testa se o token foi fornecido e retorna um erro caso não', async () => {
