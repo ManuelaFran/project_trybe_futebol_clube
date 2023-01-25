@@ -110,7 +110,7 @@ describe('Testes da rota login', () => {
     });
 
     it('testa se ao tentar enviar um token válido, o endpoint retornará um objeto com o tipo de usuário', async () => {
-        const validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc";
+        const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxfSwiaWF0IjoxNjY5MTU3ODI1fQ.6sbiQCzjvJzGdpvxKjwFbEAKD5xwORbPCP7fhf2pvro';
         
         sinon
         .stub(User, "findByPk")
