@@ -147,25 +147,48 @@ describe('Testes da rota matches', () => {
     
             (Team.findByPk as sinon.SinonStub).restore();
         });
+    });
 
-        describe('Testes da rota matches/PATCH', () => {
-            it('testa se ao finalizar uma partida, a alteração é feita no banco de dados e na página', async () => {
-                const testId = 5;
+    describe('Testes da rota matches/PATCH', () => {
+        it('testa se ao finalizar uma partida, a alteração é feita no banco de dados e na página', async () => {
+            const testId = 5;
+
+            sinon
+            .stub(Match, "update")
+            .resolves([1]);
     
-                sinon
-                .stub(Match, "update")
-                .resolves([1]);
-        
-                chaiHttpResponse = await chai
-                .request(app)
-                .patch(`/matches/${testId}/finish`)
-        
-                expect(chaiHttpResponse).to.have.status(200);
-                expect(chaiHttpResponse.body).to.haveOwnProperty('message');
-                expect(chaiHttpResponse.body.message).to.be.eq('Finished');
-        
-                (Match.update as sinon.SinonStub).restore();
-            });
+            chaiHttpResponse = await chai
+            .request(app)
+            .patch(`/matches/${testId}/finish`)
+    
+            expect(chaiHttpResponse).to.have.status(200);
+            expect(chaiHttpResponse.body).to.haveOwnProperty('message');
+            expect(chaiHttpResponse.body.message).to.be.eq('Finished');
+    
+            (Match.update as sinon.SinonStub).restore();
+        });
+
+        it('testa se é possível atualizar partidas em andamento', async () => {
+            const testId = 5;
+
+            sinon
+            .stub(Match, "update")
+            .resolves([1]);
+
+            sinon
+            .stub(Match, "findByPk")
+            .resolves(matchesMocks.updateMatches as IMatch);
+    
+            chaiHttpResponse = await chai
+            .request(app)
+            .patch(`/matches/${testId}`)
+    
+            expect(chaiHttpResponse).to.have.status(200);
+            expect(chaiHttpResponse.body).to.be.an('object');
+            expect(chaiHttpResponse.body).to.be.deep.eq(matchesMocks.updateMatches);
+    
+            (Match.update as sinon.SinonStub).restore();
+            (Match.findByPk as sinon.SinonStub).restore();
         });
     });
 });

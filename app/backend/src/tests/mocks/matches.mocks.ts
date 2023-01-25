@@ -72,4 +72,13 @@ const matchData = [
     "inProgress": true,
   }
 
-  export default { matchData, matchesInProgress, finishedMatches, insertMatch };
+  const updateMatches = {
+    "id": 1,
+    "homeTeamId": 16,
+    "homeTeamGoals": 3,
+    "awayTeamId": 8,
+    "awayTeamGoals": 1,
+    "inProgress": true,
+  } 
+
+  export default { matchData, matchesInProgress, finishedMatches, insertMatch, updateMatches };

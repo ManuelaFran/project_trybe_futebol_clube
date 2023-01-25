@@ -53,6 +53,16 @@ class MatchesService {
   static async finish(id: string): Promise<void> {
     await Match.update({ inProgress: false }, { where: { id } });
   }
+
+  static async updateMatches(
+    id: string,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<IMatch> {
+    await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    const match = await Match.findByPk(id) as IMatch;
+    return match;
+  }
 }
 
 export default MatchesService;
